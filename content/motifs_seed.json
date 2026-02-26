@@ -1,0 +1,29 @@
+{
+  "motifs": [
+    { "name": "milosc", "display_name": "Milosc", "english_name": "Love", "description": "Motyw milosci w literaturze polskiej obejmuje milosc romantyczna, nieszczesliwa, poswiecenie, milosc do ojczyzny, oraz relacje miedzy postaciami napedzane uczuciami.", "icon": "heart", "display_order": 1 },
+    { "name": "bunt", "display_name": "Bunt", "english_name": "Rebellion", "description": "Sprzeciw wobec norm, wladzy, tradycji lub konwencji spolecznych. Motyw czesto laczy sie z mlodoscia i dazeniem do wolnosci.", "icon": "fist", "display_order": 2 },
+    { "name": "patriotyzm", "display_name": "Patriotyzm / Ojczyzna", "english_name": "Patriotism / Homeland", "description": "Milosc do ojczyzny, walka o niepodleglosc, tesknota za krajem. Centralny motyw polskiego romantyzmu i literatury wojennej.", "icon": "flag", "display_order": 3 },
+    { "name": "samotnosc", "display_name": "Samotnosc", "english_name": "Loneliness", "description": "Izolacja fizyczna lub duchowa bohatera, wyobcowanie ze spoleczenstwa, poczucie niezrozumienia.", "icon": "person_alone", "display_order": 4 },
+    { "name": "cierpienie", "display_name": "Cierpienie", "english_name": "Suffering", "description": "Bol fizyczny i psychiczny, ofiarnosc, sens cierpienia, jego rola w ksztaltowaniu charakteru.", "icon": "tear", "display_order": 5 },
+    { "name": "wladza", "display_name": "Wladza", "english_name": "Power", "description": "Dazenie do wladzy, jej demoralizujacy wplyw, tyrania, relacja rzadzacych i rzadzonych.", "icon": "crown", "display_order": 6 },
+    { "name": "wolnosc", "display_name": "Wolnosc", "english_name": "Freedom", "description": "Walka o wolnosc osobista i narodowa, ograniczenia wolnosci, cena wolnosci.", "icon": "bird", "display_order": 7 },
+    { "name": "przemiana", "display_name": "Przemiana / Dojrzewanie", "english_name": "Transformation", "description": "Ewolucja bohatera, dojrzewanie, zmiana swiatopogladu, inicjacja w doroslosc.", "icon": "butterfly", "display_order": 8 },
+    { "name": "vanitas", "display_name": "Vanitas / Przemijanie", "english_name": "Vanity / Transience", "description": "Przemijanie, marnosc doczesna, nieuchronnosc smierci, refleksja nad sensem zycia.", "icon": "hourglass", "display_order": 9 },
+    { "name": "natura", "display_name": "Natura", "english_name": "Nature", "description": "Przyroda jako tlo, lustro emocji, sila oczyszczajaca, opozycja natura-cywilizacja.", "icon": "tree", "display_order": 10 },
+    { "name": "miasto", "display_name": "Miasto", "english_name": "The City", "description": "Miasto jako przestrzen spoleczna, kontrasty biedy i bogactwa, anonimowsc, nowoczesnosc.", "icon": "city", "display_order": 11 },
+    { "name": "rodzina", "display_name": "Rodzina", "english_name": "Family", "description": "Relacje rodzinne, konflikty pokolen, tradycja rodowa, obowiazki wobec rodziny.", "icon": "family", "display_order": 12 },
+    { "name": "bog_wiara", "display_name": "Bog / Wiara", "english_name": "God / Faith", "description": "Wiara i watpienie, relacja czlowieka z Bogiem, pytania o sens cierpienia, rola religii.", "icon": "pray", "display_order": 13 },
+    { "name": "sztuka", "display_name": "Sztuka", "english_name": "Art", "description": "Rola sztuki i artysty w spoleczenstwie, sila tworcza, sztuka jako forma buntu.", "icon": "palette", "display_order": 14 },
+    { "name": "pieniadz", "display_name": "Pieniadz / Materializm", "english_name": "Money / Materialism", "description": "Rola pieniedzy w relacjach miedzyludzkich, chciwosc, konflikt idealow z materializmem.", "icon": "coin", "display_order": 15 },
+    { "name": "honor", "display_name": "Honor", "english_name": "Honor", "description": "Pojecie honoru, godnosc osobista, obowiazek moralny, szlachetnosc.", "icon": "shield", "display_order": 16 },
+    { "name": "zemsta", "display_name": "Zemsta", "english_name": "Revenge", "description": "Dazenie do odwetu, spirala przemocy, sprawiedliwosc a zemsta.", "icon": "sword", "display_order": 17 },
+    { "name": "wina_kara", "display_name": "Wina i kara", "english_name": "Guilt and Punishment", "description": "Poczucie winy, kara moralna i prawna, sumienie, odkupienie.", "icon": "balance", "display_order": 18 },
+    { "name": "utopia_dystopia", "display_name": "Utopia / Dystopia", "english_name": "Utopia / Dystopia", "description": "Wizje idealnego spoleczenstwa, totalitaryzm, ostrzezenia przed skrajnosciami.", "icon": "world", "display_order": 19 },
+    { "name": "tesknota", "display_name": "Tesknota", "english_name": "Longing", "description": "Tesknota za ojczyzna, przeszloscia, mlodoscia, utraconym szczessciem.", "icon": "cloud", "display_order": 20 },
+    { "name": "obowiazek", "display_name": "Obowiazek", "english_name": "Duty", "description": "Poczucie obowiazku wobec narodu, rodziny, idealo. Konflikt obowiazku z pragnieniami.", "icon": "anchor", "display_order": 21 },
+    { "name": "mlodosc", "display_name": "Mlodosc", "english_name": "Youth", "description": "Mlodosc jako okres buntu, idealow, bledow, poszukiwania tozsamosci.", "icon": "sprout", "display_order": 22 },
+    { "name": "smierc", "display_name": "Smierc", "english_name": "Death", "description": "Smierc jako koniec, poczatek, kara, wyzwolenie. Stosunek do smiertelnosci.", "icon": "candle", "display_order": 23 },
+    { "name": "theatrum_mundi", "display_name": "Theatrum mundi", "english_name": "World as Theater", "description": "Swiat jako scena, ludzie jako aktorzy, pozory vs rzeczywistosc, maski spoleczne.", "icon": "masks", "display_order": 24 },
+    { "name": "homo_viator", "display_name": "Homo viator", "english_name": "Man as Traveler", "description": "Czlowiek jako wieczny wedrowiec, podro jako metafora zycia, poszukiwanie celu.", "icon": "compass", "display_order": 25 }
+  ]
+}
