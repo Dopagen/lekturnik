@@ -28,11 +28,17 @@
 
 ## Platform Strategy
 
-**Web PWA launches FIRST.** App stores take 1-2 weeks for review. The web build deploys instantly at lekturnik.pl with zero gatekeepers. Strategy:
+**Web PWA launches FIRST.** App stores take 1-2 weeks for review. The web build deploys instantly at lekturnik.pl with zero gatekeepers.
 
-- **Web (lekturnik.pl):** Free tier only. Full catalog, search, lektura detail, 3 AI quizzes/day (pre-generated). No payments. CTA: "Pobierz aplikacje po wiecej" linking to app stores.
+**Web serves three purposes:**
+1. **Instant launch** — captures matura panic traffic while stores review mobile builds
+2. **Install driver** — every web user is a potential app install. TikTok/social links go to lekturnik.pl, which funnels to app stores
+3. **SEO surface** — Google indexes the web app, capturing "streszczenie Lalka" traffic that converts to installs
+
+Strategy:
+- **Web (lekturnik.pl):** Free tier only. Full catalog, search, lektura detail, 3 AI quizzes/day (pre-generated). No payments. Persistent CTAs driving app installs: smart banner, paywall "download app" CTA, post-quiz "get more in the app" prompt.
 - **iOS + Android:** Full product. Free + Premium tiers. RevenueCat payments. Push notifications. Full offline.
-- **Timing:** Web goes live as soon as features work. Mobile submitted to stores in parallel. This captures matura panic traffic immediately.
+- **Funnel:** TikTok/social -> lekturnik.pl (instant access, zero friction) -> "Pobierz aplikacje" -> App Store/Play Store -> Premium conversion.
 
 ### Web Platform Differences
 

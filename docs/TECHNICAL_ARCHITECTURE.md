@@ -24,9 +24,15 @@
 
 ## Web Platform Architecture
 
-### Strategy: Web Launches First
+### Strategy: Web as Launch Vehicle + Install Driver
 
-The web PWA deploys instantly to lekturnik.pl — no store review needed. It serves the free tier while mobile apps go through App Store / Play Store review. Web users who want Premium are directed to download the mobile app.
+The web PWA deploys instantly to lekturnik.pl — no store review needed. It serves three roles:
+
+1. **Instant launch** — go live while app stores review mobile builds
+2. **Install driver** — every web user is a potential app install. All marketing links go to lekturnik.pl (zero friction), then convert to app installs via smart banners, post-quiz prompts, and paywall CTAs
+3. **SEO surface** — Google indexes lekturnik.pl, capturing high-intent queries ("streszczenie Lalka") that convert to installs
+
+Web-to-install conversion points are integrated at: smart banner (persistent), post-quiz prompt (after 3rd free quiz), paywall CTA (when hitting premium gate), post-session nudge (after good quiz score).
 
 ### Platform Differences
 

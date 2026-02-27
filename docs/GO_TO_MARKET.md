@@ -12,9 +12,31 @@
 
 ## Distribution Channels (Ranked by ROI)
 
+### Tier 0: Web PWA as Install Funnel (ZERO COST — highest leverage)
+
+**The web app IS the top of the funnel.** Every marketing channel links to lekturnik.pl (not app stores). Why:
+
+- **Zero friction:** Student sees TikTok -> taps link -> using app in 3 seconds. No store download wait.
+- **Hooks before asking for install:** Student tries free quiz, browses lektury, sees value. THEN gets prompted to install.
+- **SEO captures intent traffic:** "streszczenie Lalka" searches land on lekturnik.pl/lalka -> student uses app -> install CTA
+
+**Web-to-install conversion points:**
+1. **Smart banner** (sticky bottom on mobile browsers): "Lepsze doswiadczenie w aplikacji. Pobierz za darmo."
+2. **Post-quiz prompt:** After completing 3rd free quiz: "Chcesz wiecej? W aplikacji masz nielimitowane quizy AI."
+3. **Paywall redirect:** When hitting premium gate: "Premium dostepne w aplikacji" + store badges
+4. **Post-session nudge:** After good quiz score: "Pobierz aplikacje zeby sledzic postepy i nie stracic serii"
+5. **PWA "Add to Home Screen":** For users who don't want to visit the store — lightweight install
+
+**Metrics to track:**
+- Web MAU -> app install conversion rate (target: 15-25%)
+- Time-on-web before install (optimize for "hook within 5 minutes")
+- Which CTA drives most installs (A/B test banner vs post-quiz vs paywall)
+
 ### Tier 1: Organic TikTok + Instagram Reels (ZERO COST)
 
 Primary channel. Polish students 14-19 spend ~90 min/day on TikTok.
+
+**All links go to lekturnik.pl** (not app stores). Web gives instant gratification; store links add friction.
 
 **Content calendar (3-5 posts/week):**
 - Monday: "Bohater w jednym zdaniu" — character roasts
@@ -23,7 +45,9 @@ Primary channel. Polish students 14-19 spend ~90 min/day on TikTok.
 - Bonus: "Matura tip" — exam tips, app demos
 - Bonus: "AI vs student" — AI quiz catching non-readers
 
-**Target:** 10K TikTok followers in 3 months. 2-3 viral videos (50K+ views) can drive 500-1,000 installs.
+**Funnel:** TikTok bio link -> lekturnik.pl -> use free tier -> install app CTA -> Premium
+
+**Target:** 10K TikTok followers in 3 months. 2-3 viral videos (50K+ views) can drive 500-1,000 web visitors -> 100-250 app installs.
 
 ### Tier 2: App Store Optimization (ZERO COST)
 
@@ -34,19 +58,20 @@ Primary channel. Polish students 14-19 spend ~90 min/day on TikTok.
 
 Localized screenshots with Polish content, matura branding, AI quiz UI. Request reviews after positive quiz sessions.
 
-### Tier 3: SEO / Content Marketing (~20 PLN/mo hosting)
+### Tier 3: SEO / Content Marketing (FREE — web app IS the content)
 
-Landing pages per lektura: `lekturnik.pl/lalka`, `lekturnik.pl/dziady`
+The web app itself serves as SEO content. Flutter HTML renderer is indexable to some extent, but for maximum SEO:
 
-Target queries: "streszczenie Lalka" (~10K-30K monthly), "bohaterowie Wesele", "motywy Pan Tadeusz"
-
-Blog: "10 najwazniejszych cytatow z Lalki na mature", "Motyw buntu w literaturze"
+- **Static landing pages per lektura:** lekturnik.pl/lalka, lekturnik.pl/dziady (can be server-rendered or static HTML with CTA to open the Flutter web app)
+- **Target queries:** "streszczenie Lalka" (~10K-30K monthly), "bohaterowie Wesele", "motywy Pan Tadeusz"
+- **Blog content:** "10 najwazniejszych cytatow z Lalki na mature", "Motyw buntu w literaturze" — each links into the web app
+- **SEO advantage over Bryk.pl:** Modern, fast, mobile-friendly, no intrusive ads. Google rewards UX.
 
 ### Tier 4: YouTube/Influencer (200-500 PLN/mo after PMF)
 
 Channels: Wiedza z Wami (~200K subs), Lekturek (~160K), Matura na Maksa, Babka od Polskiego, Polina
 
-Approach: free lifetime Premium + discount code in exchange for review/mention.
+Approach: free lifetime Premium + discount code. Links go to lekturnik.pl (try it now) + app stores (get full version).
 
 TikTok nano-influencers (5K-50K): 40-250 PLN per video.
 
@@ -54,7 +79,9 @@ TikTok nano-influencers (5K-50K): 40-250 PLN per video.
 
 Referral: "Zapros znajomego -> oboje dostajecie 7 dni Premium"
 
-Channels: Reddit, Facebook groups ("Matura 2026"), Wykop.pl, Discord, student forums.
+Sharing lekturnik.pl links is frictionless — recipient can use the app immediately without downloading anything. This lowers the sharing barrier vs "download this app."
+
+Channels: Reddit, Facebook groups ("Matura 2026"), Wykop.pl, Discord, student forums. Share direct web links to specific lektury.
 
 ## Pricing Structure
 

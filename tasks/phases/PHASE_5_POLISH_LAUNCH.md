@@ -45,10 +45,13 @@ This means students can start using Lekturnik on web **immediately** while mobil
   - `web/index.html`: proper `<title>`, `<meta description>`, Open Graph tags
   - robots.txt allowing crawling
   - Note: Flutter web (HTML renderer) has limited SEO — the main landing page with static HTML can be added later for better SEO
-- [ ] **Web "download app" banner:**
-  - Sticky bottom banner on mobile browsers: "Lepsze doswiadczenie w aplikacji. Pobierz za darmo."
-  - Links to App Store / Play Store (once live) or shows "Wkrotce w sklepach"
-  - Dismissable (remember dismissal in localStorage)
+- [ ] **Web-to-app install driver CTAs (critical for conversion):**
+  - **Smart banner** (sticky bottom on mobile browsers): "Lepsze doswiadczenie w aplikacji. Pobierz za darmo." Links to App Store / Play Store (or "Wkrotce w sklepach" before approval). Dismissable, re-shows after 3 days.
+  - **Post-quiz install prompt:** After completing 3rd free quiz session, show: "Chcesz wiecej? W aplikacji masz nielimitowane quizy AI." with store badges. Only on web.
+  - **Paywall install CTA:** When hitting any premium gate on web, show store badges instead of purchase UI: "Premium dostepne w aplikacji mobilnej."
+  - **Post-session nudge:** After scoring 70%+, show: "Pobierz aplikacje zeby sledzic postepy i nie stracic serii" with store links.
+  - **PWA "Add to Home Screen":** For users who skip store install — lightweight engagement path.
+  - Track: which CTA drives most installs (add UTM params or deep link params per CTA source)
 - [ ] **Verify on browsers:** Chrome, Firefox, Safari, Edge (desktop + mobile)
 
 ### 2. App Store Submission Prep (LEKT-012, ~8h)
