@@ -14,15 +14,38 @@
 
 | Layer | Technology | Why |
 |-------|-----------|-----|
-| Frontend | **Flutter** (Dart) | Single codebase iOS+Android, strong perf |
+| Frontend | **Flutter** (Dart) — **iOS + Android + Web** | Single codebase, three platforms from one build |
 | Backend | **Supabase** (PostgreSQL + Edge Functions) | Free tier 50K MAU, built-in auth, EU hosting |
 | AI (live quiz) | **GPT-4o-mini** via OpenAI API | $0.15/$0.60 per MTok, sufficient for lit Q&A |
 | AI (content gen) | **Claude Sonnet** via Anthropic API | Higher quality for one-time batch content |
-| Payments | **RevenueCat** | Handles subscription logic, free <$2.5K MTR |
+| Payments (mobile) | **RevenueCat** | Handles subscription logic, free <$2.5K MTR |
+| Payments (web) | None (free tier only) | Web = free funnel to app stores |
+| Web hosting | **Firebase Hosting** or **Vercel** | CDN, HTTPS, custom domain |
 | Analytics | **PostHog** or **Mixpanel** | PostHog free tier generous |
 | Push | **FCM** (Firebase Cloud Messaging) | Free, cross-platform |
-| CI/CD | **GitHub Actions + Fastlane** | Automates store submission |
+| CI/CD | **GitHub Actions + Fastlane** | Automates store + web deployment |
 | Error tracking | **Sentry** (Flutter SDK) | Free tier sufficient early |
+
+## Platform Strategy
+
+**Web PWA launches FIRST.** App stores take 1-2 weeks for review. The web build deploys instantly at lekturnik.pl with zero gatekeepers. Strategy:
+
+- **Web (lekturnik.pl):** Free tier only. Full catalog, search, lektura detail, 3 AI quizzes/day (pre-generated). No payments. CTA: "Pobierz aplikacje po wiecej" linking to app stores.
+- **iOS + Android:** Full product. Free + Premium tiers. RevenueCat payments. Push notifications. Full offline.
+- **Timing:** Web goes live as soon as features work. Mobile submitted to stores in parallel. This captures matura panic traffic immediately.
+
+### Web Platform Differences
+
+| Feature | Mobile | Web |
+|---------|--------|-----|
+| Payments | RevenueCat (App Store/Play) | None — free tier only |
+| Offline storage | drift (SQLite) | Supabase cache + localStorage |
+| Push notifications | FCM (native) | Not supported initially |
+| OAuth | Native Apple/Google Sign-In | Supabase OAuth redirect flow |
+| Install | App Store / Play Store | PWA "Add to Home Screen" |
+| AI Quiz | Free (pre-gen) + Premium (live) | Free (pre-gen) only |
+
+Code uses `kIsWeb` or `Platform` checks for platform-divergent features (payments, storage, push).
 
 ## Project Structure
 
@@ -82,6 +105,7 @@ lekturnik/
 │   │   └── ai-quiz/                   # AI quiz proxy function
 │   └── seed.sql                       # Seed data for development
 ├── test/                              # Flutter tests
+├── web/                               # Flutter web config (index.html, manifest, icons)
 ├── ios/                               # iOS native config
 ├── android/                           # Android native config
 └── .github/
@@ -209,9 +233,11 @@ Go fix failing CI tests without being told how.
 ```bash
 # Flutter
 flutter run                    # Run app in debug mode
+flutter run -d chrome           # Run web app in Chrome
 flutter test                   # Run all tests
 flutter build apk              # Build Android APK
 flutter build ios              # Build iOS app
+flutter build web --release --web-renderer html  # Build web (HTML renderer for text-heavy content)
 flutter analyze                # Static analysis
 
 # Supabase

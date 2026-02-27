@@ -1,18 +1,61 @@
 # Phase 5: Polish & Launch
 
-**Effort:** ~16 hours | **Tickets:** LEKT-012, LEKT-018, LEKT-019 | **Dependencies:** All previous phases
+**Effort:** ~20 hours | **Tickets:** LEKT-012, LEKT-018, LEKT-019 | **Dependencies:** All previous phases
 
 ## Goal
 
-Final polish, App Store submission, onboarding optimization, and launch readiness. This is the last gate before users see the product.
+Final polish, **web PWA deployment (launches first!)**, App Store submission, onboarding optimization, and launch readiness. The web version goes live immediately while app stores review the mobile builds.
+
+## Launch Strategy: Web First, Then Stores
+
+```
+Day 1:  Web PWA deployed to lekturnik.pl (instant, no review)
+Day 1:  Submit iOS to App Store review + Android to Google Play review
+Day 1:  TikTok/social announcement with lekturnik.pl link
+Day 3-7: Google Play approved (typically faster)
+Day 7-14: iOS approved
+Day 14+: All three platforms live, full marketing push
+```
+
+This means students can start using Lekturnik on web **immediately** while mobile reviews are pending.
 
 ## Deliverables
 
-### 1. App Store Submission Prep (LEKT-012, ~8h)
+### 1. Web PWA Deployment (PRIORITY — do this first, ~4h)
+
+- [ ] **Firebase Hosting setup:**
+  - `firebase init hosting` in project root
+  - Configure to serve `build/web/` directory
+  - Custom domain: lekturnik.pl
+  - HTTPS automatic via Firebase
+- [ ] **Build and deploy:**
+  - `flutter build web --release --web-renderer html`
+  - `firebase deploy --only hosting`
+- [ ] **PWA configuration:**
+  - `web/manifest.json`: name, short_name, icons (192px, 512px), theme_color, background_color, display: standalone
+  - Service worker for basic caching (Flutter generates one by default)
+  - "Add to Home Screen" prompt after 2nd visit
+- [ ] **Web-specific polish:**
+  - Responsive layout: works on desktop (1200px+), tablet (768px), and mobile browser
+  - Mouse hover states (web users use mouse, not touch)
+  - Right-click disabled on content (basic anti-copy for premium content)
+  - Loading screen with Lekturnik logo (replaces Flutter's default white screen)
+  - Custom 404 page
+- [ ] **SEO fundamentals:**
+  - `web/index.html`: proper `<title>`, `<meta description>`, Open Graph tags
+  - robots.txt allowing crawling
+  - Note: Flutter web (HTML renderer) has limited SEO — the main landing page with static HTML can be added later for better SEO
+- [ ] **Web "download app" banner:**
+  - Sticky bottom banner on mobile browsers: "Lepsze doswiadczenie w aplikacji. Pobierz za darmo."
+  - Links to App Store / Play Store (once live) or shows "Wkrotce w sklepach"
+  - Dismissable (remember dismissal in localStorage)
+- [ ] **Verify on browsers:** Chrome, Firefox, Safari, Edge (desktop + mobile)
+
+### 2. App Store Submission Prep (LEKT-012, ~8h)
 
 - [ ] **App icons:**
   - 1024x1024 master icon
-  - All required sizes for iOS + Android
+  - All required sizes for iOS + Android + web (favicon, PWA icons)
   - Design: recognizable at small sizes, includes book/AI visual element
 - [ ] **Screenshots (per device):**
   - iPhone 6.7" (iPhone 15 Pro Max): 5 screenshots
@@ -38,9 +81,9 @@ Final polish, App Store submission, onboarding optimization, and launch readines
 - [ ] **Google Play:** internal testing track live
 - [ ] Submit to both stores, respond to reviewer feedback
 
-### 2. Onboarding Flow (LEKT-018, ~5h)
+### 3. Onboarding Flow (LEKT-018, ~5h)
 
-- [ ] 3-screen intro (shown on first launch):
+- [ ] 3-screen intro (shown on first launch, all platforms):
   1. "Ucz sie lektur z AI" — app logo + key value prop
   2. "Sprawdzi czy przeczytales" — AI quiz demo visual
   3. "Zdaj mature z polskiego" — matura stats visual
@@ -50,71 +93,77 @@ Final polish, App Store submission, onboarding optimization, and launch readines
   - "Czego sie teraz uczysz?" — select up to 5 lektury from catalog
   - Selected lektury appear on home screen as "Twoje lektury"
 - [ ] Skip button visible on every screen
-- [ ] Onboarding only shown once (flag in SharedPreferences)
+- [ ] Onboarding only shown once (SharedPreferences on mobile, localStorage on web)
+- [ ] **Web-specific onboarding addition:** final screen shows "Pobierz aplikacje" for full features
 
-### 3. Final QA & Polish (~3h)
+### 4. Final QA & Polish (~3h)
 
-- [ ] Test on physical devices:
+- [ ] Test on physical devices + browsers:
   - [ ] iPhone (recent model)
   - [ ] iPhone SE (small screen)
   - [ ] Android mid-range (Samsung A54 class)
   - [ ] Android budget (older/smaller device)
+  - [ ] **Chrome desktop (1920x1080)**
+  - [ ] **Chrome mobile (iPhone/Android browser)**
+  - [ ] **Safari desktop + mobile**
+  - [ ] **Firefox desktop**
 - [ ] QA checklist:
-  - [ ] All navigation flows work end-to-end
+  - [ ] All navigation flows work end-to-end (mobile + web)
   - [ ] No text overflow on any screen
   - [ ] Dark mode renders correctly
-  - [ ] Offline mode works (airplane mode test)
-  - [ ] Premium purchase flow (sandbox)
-  - [ ] AI quiz completes full session
+  - [ ] Offline mode works on mobile (airplane mode test)
+  - [ ] Premium purchase flow on mobile (sandbox)
+  - [ ] **Web paywall shows "download app" CTA, not purchase buttons**
+  - [ ] AI quiz completes full session (both platforms)
   - [ ] Streak increments correctly
   - [ ] Search returns correct results
-  - [ ] Push notifications deliver
-  - [ ] Account creation and deletion work
+  - [ ] Push notifications deliver (mobile only)
+  - [ ] Account creation and deletion work (both platforms)
+  - [ ] **Web: OAuth login redirects work correctly**
   - [ ] No crashes in Sentry
 - [ ] Performance check:
-  - [ ] Cold start <3s
+  - [ ] Cold start <3s (mobile)
+  - [ ] **Web initial load <5s on 4G** (HTML renderer + content on demand)
   - [ ] Catalog load <1s
   - [ ] AI response <3s
-  - [ ] App size <50MB
+  - [ ] App size <50MB (mobile)
+  - [ ] **Web bundle size <5MB** (HTML renderer)
 - [ ] Polish language review: no English leaking in user-facing strings
 - [ ] Accessibility basics: text scaling, screen reader labels on key buttons
 
-### 4. Landing Page / Web Presence
+### 5. CI/CD: Automated Web Deploy
 
-- [ ] lekturnik.pl live with:
-  - Hero section: app name, value prop, download buttons
-  - Feature highlights (3-4 key features)
-  - Screenshots carousel
-  - App Store + Google Play badges
-  - Privacy policy link
-  - Contact email
-- [ ] SEO: meta tags, Open Graph for social sharing
-- [ ] Google Search Console + Analytics connected
+- [ ] GitHub Actions workflow: on push to main -> build web -> deploy to Firebase Hosting
+- [ ] Verify: merge to main automatically updates lekturnik.pl
 
-### 5. Launch Day Checklist
+### 6. Launch Day Checklist
 
-- [ ] App live on iOS App Store
-- [ ] App live on Google Play Store
-- [ ] TikTok announcement post
+- [ ] **Web PWA live at lekturnik.pl** (Day 1!)
+- [ ] App submitted to iOS App Store
+- [ ] App submitted to Google Play Store
+- [ ] TikTok announcement post (link to lekturnik.pl — works immediately)
 - [ ] Instagram announcement post
 - [ ] Reddit/Facebook group posts
-- [ ] Analytics verified: events flowing
-- [ ] Error tracking verified: Sentry connected
-- [ ] Monitor first 24h: crashes, ratings, reviews
+- [ ] Analytics verified: events flowing (web + mobile)
+- [ ] Error tracking verified: Sentry connected (web + mobile)
+- [ ] Monitor first 24h: crashes, ratings, web traffic
+- [ ] When stores approve: update social posts with download links
 
 ## Acceptance Criteria
 
-- [ ] App approved on both stores
-- [ ] Onboarding shows once and collects school level
-- [ ] No critical bugs on any tested device
-- [ ] Landing page live and linking to stores
-- [ ] Analytics collecting data
-- [ ] First external users can install and use the app
+- [ ] **lekturnik.pl live and functional** (web PWA)
+- [ ] App submitted to both stores (approval pending is OK)
+- [ ] Onboarding shows once and collects school level (all platforms)
+- [ ] No critical bugs on any tested device/browser
+- [ ] Analytics collecting data from web + mobile
+- [ ] First external users can use the web app immediately
 
 ## Notes for Claude Session
 
-- This is the final gate. Quality matters more than speed.
-- App Store reviewers look at: content completeness (need real data for 12 lektury), subscription clarity (terms visible), privacy for minors (age gate must work), and functionality (everything must work, not just look right).
+- **Web deployment is the #1 priority in this phase.** It's the fastest path to real users.
+- The web version doesn't need to be perfect — it needs to be functional and bug-free for the free tier.
+- App Store reviewers look at: content completeness, subscription clarity, privacy for minors, and functionality.
 - Screenshots sell the app. Invest time in making them look polished.
-- The onboarding school level selector is important for personalization — it determines which lektury appear first.
-- Don't forget: in-app review prompt after positive experiences (high quiz scores, streak milestones).
+- The onboarding school level selector is important for personalization.
+- Don't forget: in-app review prompt after positive experiences (mobile only).
+- Test the web build on slow connections (throttle in Chrome DevTools). Flutter web can be heavy — the HTML renderer helps but monitor bundle size.

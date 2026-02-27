@@ -4,20 +4,85 @@
 
 | Component | Technology | Justification |
 |-----------|-----------|---------------|
-| Frontend | Flutter (Dart) 3.19+ | Single codebase iOS+Android, strong performance |
+| Frontend | Flutter (Dart) 3.19+ — **iOS + Android + Web** | Single codebase, three platforms |
 | State management | Riverpod | Compile-safe, testable, well-documented |
 | Routing | GoRouter | Deep linking, named routes |
 | Code generation | freezed + json_serializable | Immutable models, JSON parsing |
-| Local DB | drift (sqflite) | SQLite abstraction for offline cache |
+| Local DB (mobile) | drift (sqflite) | SQLite abstraction for offline cache |
+| Local storage (web) | SharedPreferences + Supabase queries | No SQLite on web; use browser storage |
 | Backend | Supabase (PostgreSQL + Edge Functions) | Free tier 50K MAU, built-in auth, EU hosting |
 | AI (live quiz) | GPT-4o-mini via OpenAI API | $0.15/$0.60 per MTok |
 | AI (content gen) | Claude Sonnet via Anthropic API | Higher quality for batch generation |
-| Payments | RevenueCat (purchases_flutter) | Free <$2.5K MTR, handles receipt validation |
+| Payments (mobile) | RevenueCat (purchases_flutter) | Free <$2.5K MTR, handles receipt validation |
+| Payments (web) | None — free tier only | Web = funnel to app stores |
+| Web hosting | Firebase Hosting | Free tier, CDN, custom domain, HTTPS |
 | Analytics | PostHog or Mixpanel | PostHog free tier generous |
-| Push | Firebase Cloud Messaging (FCM) | Free, cross-platform |
+| Push (mobile) | Firebase Cloud Messaging (FCM) | Free, cross-platform |
 | Error tracking | Sentry (Flutter SDK) | Free tier sufficient |
-| CI/CD | GitHub Actions + Fastlane | Automates store submission |
+| CI/CD | GitHub Actions + Fastlane | Automates store + web deployment |
 | Storage/CDN | Supabase Storage | Included in plan |
+
+## Web Platform Architecture
+
+### Strategy: Web Launches First
+
+The web PWA deploys instantly to lekturnik.pl — no store review needed. It serves the free tier while mobile apps go through App Store / Play Store review. Web users who want Premium are directed to download the mobile app.
+
+### Platform Differences
+
+| Concern | Mobile | Web |
+|---------|--------|-----|
+| **Payments** | RevenueCat | Disabled — "download app" CTA |
+| **Offline storage** | drift (SQLite) | Supabase cache + SharedPreferences |
+| **Push notifications** | FCM native | Not supported (defer) |
+| **OAuth** | Native Apple/Google Sign-In | Supabase OAuth redirect flow |
+| **Install** | App Store / Play Store | PWA "Add to Home Screen" |
+| **AI Quiz** | Free (pre-gen) + Premium (live API) | Free (pre-gen) only |
+| **Renderer** | N/A (native) | HTML renderer (smaller, text-optimized) |
+| **Bundle size** | <50 MB | Target <5 MB |
+
+### Platform Abstraction Pattern
+
+```dart
+// lib/services/platform_service.dart
+import 'package:flutter/foundation.dart' show kIsWeb;
+
+class PlatformService {
+  static bool get isWeb => kIsWeb;
+  static bool get isMobile => !kIsWeb;
+  static bool get supportsPayments => !kIsWeb;
+  static bool get supportsPush => !kIsWeb;
+  static bool get supportsOffline => !kIsWeb;
+}
+```
+
+Use conditional imports for mobile-only packages:
+```dart
+// lib/services/payment_service.dart
+import 'payment_service_stub.dart'
+    if (dart.library.io) 'payment_service_mobile.dart';
+```
+
+### Web Build & Deploy
+
+```bash
+# Build
+flutter build web --release --web-renderer html
+
+# Deploy (Firebase Hosting)
+firebase deploy --only hosting
+
+# CI/CD: GitHub Actions deploys on push to main
+```
+
+### Web Performance Targets
+
+| Metric | Target |
+|--------|--------|
+| Initial load (4G) | <5s |
+| Time to interactive | <3s |
+| Bundle size | <5 MB |
+| Lighthouse score | >80 |
 
 ## Flutter Project Structure
 
@@ -364,21 +429,29 @@ Each lektura gets a ~2,000-4,000 token system prompt containing:
 
 ## Offline Architecture
 
+### Mobile
 - **Free tier:** 3 most recently viewed lektury cached (SQLite via drift)
 - **Premium:** full library cached, background sync on WiFi
 - **AI quiz:** pre-generated questions work offline; live AI requires connection
 - **Progress:** local-first, synced to Supabase on connectivity
 - **Conflict resolution:** last-write-wins with timestamps
 
+### Web
+- **No true offline mode.** Web version requires internet connection.
+- **Browser caching:** Flutter service worker caches app shell and assets
+- **Data caching:** Supabase client caches recent queries; SharedPreferences stores user preferences and quiz daily count
+- **Graceful degradation:** Show "Brak polaczenia" message if network unavailable
+
 ## Performance Requirements
 
-| Metric | Target |
-|--------|--------|
-| Cold start | <3s on Samsung A54 class |
-| Catalog load | <1s |
-| AI quiz response | <3s |
-| Offline content access | <500ms |
-| App size | <50MB initial (content on demand) |
+| Metric | Mobile Target | Web Target |
+|--------|--------------|------------|
+| Cold start | <3s (Samsung A54 class) | <5s initial load (4G) |
+| Catalog load | <1s | <1s |
+| AI quiz response | <3s | <3s |
+| Offline content | <500ms | N/A (requires connection) |
+| App/bundle size | <50MB | <5MB |
+| Lighthouse score | N/A | >80 |
 
 ## Data Privacy Architecture
 
