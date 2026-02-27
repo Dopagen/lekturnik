@@ -1,0 +1,161 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Lektura Content Package",
+  "description": "Complete study content for a single lektura, ready for import into Supabase",
+  "type": "object",
+  "required": ["lektura", "chapters", "characters", "motifs", "quotes", "quiz_questions", "system_prompt"],
+  "properties": {
+    "lektura": {
+      "type": "object",
+      "required": ["title", "author", "epoch", "school_level", "reading_type"],
+      "properties": {
+        "title": { "type": "string", "description": "Full title of the work" },
+        "author": { "type": "string", "description": "Author's full name" },
+        "epoch": {
+          "type": "string",
+          "enum": ["antyk", "sredniowiecze", "renesans", "barok", "oswiecenie", "romantyzm", "pozytywizm", "mloda_polska", "miedzywojennie", "wspolczesnosc"],
+          "description": "Literary epoch"
+        },
+        "school_level": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "enum": ["sp_7_8", "liceum_pp", "liceum_pr"]
+          },
+          "description": "Which school levels this lektura is required for"
+        },
+        "is_mandatory": { "type": "boolean", "default": true },
+        "reading_type": {
+          "type": "string",
+          "enum": ["full", "fragments"],
+          "description": "Whether students must read the full work or selected fragments"
+        },
+        "matura_frequency_score": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 10,
+          "description": "How frequently this lektura appears on matura exams (1=rare, 10=nearly every year)"
+        },
+        "context_summary": { "type": "string", "description": "Short context (free tier, ~200 words)" },
+        "context_full": { "type": "string", "description": "Full context (premium, ~500-800 words)" },
+        "problematyka": { "type": "string", "description": "Key interpretive questions (premium)" }
+      }
+    },
+    "chapters": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": ["number", "summary_text"],
+        "properties": {
+          "number": { "type": "integer", "minimum": 1 },
+          "title": { "type": "string", "description": "Chapter/act title (optional)" },
+          "summary_text": { "type": "string", "description": "Chapter summary (100-300 words)" },
+          "is_free": { "type": "boolean", "default": false, "description": "True for first 3 chapters" }
+        }
+      }
+    },
+    "characters": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": ["name", "role", "description"],
+        "properties": {
+          "name": { "type": "string" },
+          "role": {
+            "type": "string",
+            "enum": ["main", "supporting", "minor"]
+          },
+          "description": { "type": "string", "description": "200-400 word description" },
+          "traits": {
+            "type": "array",
+            "items": { "type": "string" },
+            "description": "3-5 key character traits"
+          },
+          "arc_description": { "type": "string", "description": "Character development arc" },
+          "one_liner": { "type": "string", "description": "Witty one-liner (e.g., 'Wokulski: pierwszy polski simp')" },
+          "is_free": { "type": "boolean", "default": false },
+          "display_order": { "type": "integer", "default": 0 }
+        }
+      }
+    },
+    "motifs": {
+      "type": "array",
+      "description": "Motifs present in this lektura (references global motif names)",
+      "items": {
+        "type": "object",
+        "required": ["motif_name", "explanation"],
+        "properties": {
+          "motif_name": {
+            "type": "string",
+            "description": "Must match a name from the 25 master motif list"
+          },
+          "explanation": {
+            "type": "string",
+            "description": "How this motif manifests in this work (100-200 words)"
+          },
+          "relevant_quote_index": {
+            "type": "integer",
+            "description": "Index into the quotes array for the most relevant quote"
+          }
+        }
+      }
+    },
+    "quotes": {
+      "type": "array",
+      "minItems": 5,
+      "items": {
+        "type": "object",
+        "required": ["text", "chapter_ref"],
+        "properties": {
+          "text": { "type": "string", "description": "Exact quote text" },
+          "character_name": { "type": "string", "description": "Who said/thought it (if applicable)" },
+          "chapter_ref": { "type": "string", "description": "Chapter/act reference (e.g., 'Tom I, Rozdzial 3')" },
+          "motif_names": {
+            "type": "array",
+            "items": { "type": "string" },
+            "description": "Which motifs this quote relates to"
+          },
+          "essay_usage_tip": { "type": "string", "description": "How to use this quote in a matura essay" },
+          "is_free": { "type": "boolean", "default": false },
+          "display_order": { "type": "integer", "default": 0 }
+        }
+      }
+    },
+    "quiz_questions": {
+      "type": "array",
+      "minItems": 50,
+      "items": {
+        "type": "object",
+        "required": ["question_text", "expected_answer", "bloom_level", "difficulty"],
+        "properties": {
+          "question_text": { "type": "string" },
+          "expected_answer": { "type": "string", "description": "Expected answer (2-4 sentences) for AI evaluation context" },
+          "bloom_level": {
+            "type": "string",
+            "enum": ["remember", "understand", "apply", "analyze", "evaluate", "create"]
+          },
+          "difficulty": {
+            "type": "string",
+            "enum": ["latwy", "sredni", "trudny"]
+          },
+          "tags": {
+            "type": "array",
+            "items": { "type": "string" },
+            "description": "Free-form tags (e.g., 'chapter_5', 'wokulski', 'anti_cheat')"
+          },
+          "is_anti_cheat": {
+            "type": "boolean",
+            "default": false,
+            "description": "True if this question tests details only found in full text, not summaries"
+          }
+        }
+      }
+    },
+    "system_prompt": {
+      "type": "string",
+      "description": "Complete system prompt for AI quiz mode (2000-4000 tokens). Contains verified plot, characters, quotes, motifs, misconceptions, scoring rubric, anti-hallucination guardrails."
+    }
+  }
+}
